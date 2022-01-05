@@ -20,12 +20,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    ----------------------------------------------------------------------
  */
+#include <libopencm3/stm32/i2c.h>
 #include "ssd1306.h"
 
+void ssd1306_I2C_Write(uint8_t address, uint8_t reg, uint8_t data)
+{
+        /*put you libopencm3 i2c stuff here*/
+}
+
 /* Write command */
-#define SSD1306_WRITECOMMAND(command)      ssd1306_I2C_Write(SSD1306_I2C, SSD1306_I2C_ADDR, 0x00, (command))
+#define SSD1306_WRITECOMMAND(command)      ssd1306_I2C_Write(SSD1306_I2C_ADDR, 0x00, (command))
 /* Write data */
-#define SSD1306_WRITEDATA(data)            ssd1306_I2C_Write(SSD1306_I2C, SSD1306_I2C_ADDR, 0x40, (data))
+#define SSD1306_WRITEDATA(data)            ssd1306_I2C_Write(SSD1306_I2C_ADDR, 0x40, (data))
 /* Absolute value */
 #define ABS(x)   ((x) > 0 ? (x) : -(x))
 
@@ -44,21 +50,6 @@ typedef struct {
 static SSD1306_t SSD1306;
 
 uint8_t SSD1306_Init(void) {
-
-	/* Init I2C */
-	ssd1306_I2C_Init();
-	
-	/* Check if LCD connected to I2C */
-	if (!ssd1306_I2C_IsDeviceConnected(SSD1306_I2C, SSD1306_I2C_ADDR)) {
-		/* Return false */
-		return 0;
-	}
-	
-	/* A little delay */
-	uint32_t p = 2500;
-	while(p>0)
-		p--;
-	
 	/* Init LCD */
 	SSD1306_WRITECOMMAND(0xAE); //display off
 	SSD1306_WRITECOMMAND(0x20); //Set Memory Addressing Mode   
@@ -103,7 +94,7 @@ uint8_t SSD1306_Init(void) {
 	SSD1306.Initialized = 1;
 	
 	/* Return OK */
-	return 1;
+	return 0;
 }
 
 void SSD1306_UpdateScreen(void) {
@@ -115,7 +106,7 @@ void SSD1306_UpdateScreen(void) {
 		SSD1306_WRITECOMMAND(0x10);
 		
 		/* Write multi data */
-		ssd1306_I2C_WriteMulti(SSD1306_I2C, SSD1306_I2C_ADDR, 0x40, &SSD1306_Buffer[SSD1306_WIDTH * m], SSD1306_WIDTH);
+//		ssd1306_I2C_WriteMulti(SSD1306_I2C, SSD1306_I2C_ADDR, 0x40, &SSD1306_Buffer[SSD1306_WIDTH * m], SSD1306_WIDTH);
 	}
 }
 

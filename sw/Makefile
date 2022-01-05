@@ -5,7 +5,7 @@ CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
  
 # Задаем из каких файлов собирать проект, можно указать несколько файлов
-SRCS= main.c
+SRCS= main.c fonts.c ssd1306.c
  
 OBJS = $(SRCS:.c=.o)
  

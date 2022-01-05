@@ -28,6 +28,8 @@
 extern C {
 #endif
 
+#include <libopencm3/cm3/common.h>
+
 /**
  *
  * Default fonts library. It is used in all LCD based libraries.
@@ -40,7 +42,6 @@ extern C {
  *  - 16 x 26 pixels
 
  */
-#include "stm32f10x.h"
 #include "string.h"
 
 /**

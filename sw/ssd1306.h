@@ -45,12 +45,7 @@ SCL        |PB6          |Serial clock line
 SDA        |PB7          |Serial data line
  */
 
-#include "stm32f10x.h"
-#include "ssd1306_i2c.h"
 #include "fonts.h"
-#include "stm32f10x_rcc.h"
-//#include "stm32f4_delay.h"
-
 #include "stdlib.h"
 #include "string.h"
 
