@@ -19,7 +19,7 @@ CFLAGS=-I./libopencm3/include/ -mcpu=cortex-m0plus -mthumb  -DSTM32L0
 LIBOPENCM3_LIB=./libopencm3/lib/libopencm3_stm32l0.a
 
 
-all: $(TARG) $(LIBOPENCM3_LIB)
+all: $(LIBOPENCM3_LIB) $(TARG)
 
 $(LIBOPENCM3_LIB):
 	TARGETS=${TARGETS} $(MAKE) -C libopencm3
