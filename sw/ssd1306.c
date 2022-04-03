@@ -23,6 +23,14 @@
 #include <libopencm3/stm32/i2c.h>
 #include "ssd1306.h"
 
+static ssd1306_i2c_send i2c_callback = NULL;
+
+void ssd1306_set_i2c_callback(ssd1306_i2c_send func)
+{
+       i2c_callback = func;
+}
+
+#if 0
 void ssd1306_I2C_Write(uint8_t address, uint8_t reg, uint8_t data)
 {
         /*put you libopencm3 i2c stuff here*/
@@ -32,6 +40,12 @@ void ssd1306_I2C_Write(uint8_t address, uint8_t reg, uint8_t data)
 #define SSD1306_WRITECOMMAND(command)      ssd1306_I2C_Write(SSD1306_I2C_ADDR, 0x00, (command))
 /* Write data */
 #define SSD1306_WRITEDATA(data)            ssd1306_I2C_Write(SSD1306_I2C_ADDR, 0x40, (data))
+#else
+/* Write command */
+#define SSD1306_WRITECOMMAND(command)      i2c_callback(0x00, (command))
+/* Write data */
+#define SSD1306_WRITEDATA(data)            i2c_callback( 0x40, (data))
+#endif
 /* Absolute value */
 #define ABS(x)   ((x) > 0 ? (x) : -(x))
 

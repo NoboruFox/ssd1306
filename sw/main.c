@@ -2,13 +2,18 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/i2c.h>
 
+#include "ssd1306.h"
+
+#define SSD1306_I2C_ADDR 0x78
+
 void clock_setup()
 {
     /* Enable GPIOA clock. */
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_I2C1);
 	rcc_periph_clock_enable(RCC_GPIOB);
-	rcc_set_i2c_clock_hsi(I2C1);
+//	rcc_set_i2c_clock_hsi(I2C1);
+    rcc_get_i2c_clk_freq(I2C1);
 }
 
 
@@ -34,12 +39,19 @@ void i2c_setup()
 	i2c_set_digital_filter(I2C1, 0);
 	/* HSI is at 8Mhz */
 	i2c_set_speed(I2C1, i2c_speed_sm_100k, 8);
-    //below no need?
-	//configure No-Stretch CR1 (only relevant in slave mode)
-	i2c_enable_stretching(I2C1);
 	//addressing mode
 	i2c_set_7bit_addr_mode(I2C1);
 	i2c_peripheral_enable(I2C1);
+}
+
+static int i2c_send(uint8_t reg, uint8_t data) 
+{
+        uint8_t chunk[2] = { 0 };
+        chunk[0] = reg;
+        chunk[1] = data;
+        i2c_transfer7(I2C1, SSD1306_I2C_ADDR, chunk, sizeof(chunk), NULL, 0);
+
+        return 0;
 }
 
 
@@ -48,6 +60,12 @@ int main()
     clock_setup();
     gpio_setup();
     i2c_setup();
+
+    ssd1306_set_i2c_callback(i2c_send);
+
+
+    SSD1306_Init();
+
 
     for(;;) {
             int i;

@@ -30197,9 +30197,9 @@ SSD1306_DrawTriangle	./ssd1306.c	/^void SSD1306_DrawTriangle(uint16_t x1, uint16
 SSD1306_Fill	./ssd1306.c	/^void SSD1306_Fill(SSD1306_COLOR_t color) {$/;"	f
 SSD1306_GotoXY	./ssd1306.c	/^void SSD1306_GotoXY(uint16_t x, uint16_t y) {$/;"	f
 SSD1306_H	./ssd1306.h	24;"	d
-SSD1306_HEIGHT	./ssd1306.h	71;"	d
-SSD1306_I2C	./ssd1306.h	55;"	d
-SSD1306_I2C_ADDR	./ssd1306.h	60;"	d
+SSD1306_HEIGHT	./ssd1306.h	73;"	d
+SSD1306_I2C	./ssd1306.h	57;"	d
+SSD1306_I2C_ADDR	./ssd1306.h	62;"	d
 SSD1306_Init	./ssd1306.c	/^uint8_t SSD1306_Init(void) {$/;"	f
 SSD1306_OFF	./ssd1306.c	/^void SSD1306_OFF(void) {$/;"	f
 SSD1306_ON	./ssd1306.c	/^void SSD1306_ON(void) {$/;"	f
@@ -30207,7 +30207,7 @@ SSD1306_Putc	./ssd1306.c	/^char SSD1306_Putc(char ch, FontDef_t* Font, SSD1306_C
 SSD1306_Puts	./ssd1306.c	/^char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {$/;"	f
 SSD1306_ToggleInvert	./ssd1306.c	/^void SSD1306_ToggleInvert(void) {$/;"	f
 SSD1306_UpdateScreen	./ssd1306.c	/^void SSD1306_UpdateScreen(void) {$/;"	f
-SSD1306_WIDTH	./ssd1306.h	67;"	d
+SSD1306_WIDTH	./ssd1306.h	69;"	d
 SSD1306_WRITECOMMAND	./ssd1306.c	32;"	d	file:
 SSD1306_WRITEDATA	./ssd1306.c	34;"	d	file:
 SSD1306_t	./ssd1306.c	/^} SSD1306_t;$/;"	t	typeref:struct:__anon37	file:

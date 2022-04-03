@@ -28,6 +28,9 @@
 extern C {
 #endif
 
+typedef int (*ssd1306_i2c_send)(uint8_t reg, uint8_t data);
+void ssd1306_set_i2c_callback(ssd1306_i2c_send func);
+
 /**
  * This SSD1306 LCD uses I2C for communication
  *
