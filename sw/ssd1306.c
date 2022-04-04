@@ -44,7 +44,7 @@ void ssd1306_I2C_Write(uint8_t address, uint8_t reg, uint8_t data)
 /* Write command */
 #define SSD1306_WRITECOMMAND(command)      i2c_callback(0x00, (command))
 /* Write data */
-#define SSD1306_WRITEDATA(data)            i2c_callback( 0x40, (data))
+#define SSD1306_WRITEDATA(data)            i2c_callback(0x40, (data))
 #endif
 /* Absolute value */
 #define ABS(x)   ((x) > 0 ? (x) : -(x))

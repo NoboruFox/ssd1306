@@ -13,7 +13,7 @@ void clock_setup()
     rcc_periph_clock_enable(RCC_I2C1);
 	rcc_periph_clock_enable(RCC_GPIOB);
 //	rcc_set_i2c_clock_hsi(I2C1);
-    rcc_get_i2c_clk_freq(I2C1);
+//    rcc_get_i2c_clk_freq(I2C1_BASE);
 }
 
 
@@ -38,7 +38,7 @@ void i2c_setup()
     //digital filter is disabled
 	i2c_set_digital_filter(I2C1, 0);
 	/* HSI is at 8Mhz */
-	i2c_set_speed(I2C1, i2c_speed_sm_100k, 8);
+	i2c_set_speed(I2C1, i2c_speed_fm_400k, 8);
 	//addressing mode
 	i2c_set_7bit_addr_mode(I2C1);
 	i2c_peripheral_enable(I2C1);
@@ -46,10 +46,12 @@ void i2c_setup()
 
 static int i2c_send(uint8_t reg, uint8_t data) 
 {
+        //i2c_send_start(I2C1);
         uint8_t chunk[2] = { 0 };
         chunk[0] = reg;
         chunk[1] = data;
         i2c_transfer7(I2C1, SSD1306_I2C_ADDR, chunk, sizeof(chunk), NULL, 0);
+        i2c_send_stop(I2C1);
 
         return 0;
 }
@@ -61,17 +63,19 @@ int main()
     gpio_setup();
     i2c_setup();
 
+//    i2c_send(0x00, 0xAE);
     ssd1306_set_i2c_callback(i2c_send);
 
-
     SSD1306_Init();
-
+//    SSD1306_Fill(SSD1306_COLOR_WHITE);
+//    SSD1306_UpdateScreen();
 
     for(;;) {
             int i;
             gpio_toggle(GPIOA, GPIO0);
             for (i = 0; i < 100000; i++) {	/* Wait a bit. */
                     __asm__("nop");
-            }
+           }
     }
+
 }
