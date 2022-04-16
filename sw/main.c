@@ -3,8 +3,9 @@
 #include <libopencm3/stm32/i2c.h>
 
 #include "ssd1306.h"
+#include "fonts.h"
 
-#define SSD1306_I2C_ADDR 0x78
+#define SSD1306_I2C_ADDR 0x3C //0x78 is shifting in libopencm3
 
 void clock_setup()
 {
@@ -13,7 +14,7 @@ void clock_setup()
     rcc_periph_clock_enable(RCC_I2C1);
 	rcc_periph_clock_enable(RCC_GPIOB);
 //	rcc_set_i2c_clock_hsi(I2C1);
-//    rcc_get_i2c_clk_freq(I2C1_BASE);
+    rcc_get_i2c_clk_freq(I2C1_BASE);
 }
 
 
@@ -51,7 +52,21 @@ static int i2c_send(uint8_t reg, uint8_t data)
         chunk[0] = reg;
         chunk[1] = data;
         i2c_transfer7(I2C1, SSD1306_I2C_ADDR, chunk, sizeof(chunk), NULL, 0);
-        i2c_send_stop(I2C1);
+        //i2c_send_stop(I2C1);
+
+        return 0;
+}
+
+static int i2c_send_block(uint8_t reg, uint8_t *data, uint16_t count) 
+{
+        uint8_t i;
+        uint8_t chunk[129] = { 0 };
+        chunk[0] = reg;
+        for (i=1; i < count; i++) {
+                chunk[i] = *data++;
+        }
+
+        i2c_transfer7(I2C1, SSD1306_I2C_ADDR, chunk, sizeof(chunk), NULL, 0);
 
         return 0;
 }
@@ -65,10 +80,20 @@ int main()
 
 //    i2c_send(0x00, 0xAE);
     ssd1306_set_i2c_callback(i2c_send);
+    ssd1306_set_i2c_callback_block(i2c_send_block);
 
     SSD1306_Init();
-//    SSD1306_Fill(SSD1306_COLOR_WHITE);
-//    SSD1306_UpdateScreen();
+    //SSD1306_Fill(SSD1306_COLOR_BLACK);
+    //SSD1306_UpdateScreen();
+    //SSD1306_Fill(SSD1306_COLOR_WHITE);
+    //SSD1306_UpdateScreen();
+    SSD1306_GotoXY(0,0);
+    SSD1306_Puts("EVERYBODY KNOWS", &Font_7x10, SSD1306_COLOR_WHITE);
+    SSD1306_GotoXY(0,20);
+    SSD1306_Puts("SHITS", &Font_7x10, SSD1306_COLOR_WHITE);
+    SSD1306_GotoXY(0,30);
+    SSD1306_Puts("FUCKED", &Font_16x26, SSD1306_COLOR_WHITE);
+    SSD1306_UpdateScreen();
 
     for(;;) {
             int i;

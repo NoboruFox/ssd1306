@@ -27,9 +27,13 @@
 #ifdef __cplusplus
 extern C {
 #endif
-
+//declaring a new def for i2c_send callback
 typedef int (*ssd1306_i2c_send)(uint8_t reg, uint8_t data);
+//declaring a new def for i2c_send_block callback
 void ssd1306_set_i2c_callback(ssd1306_i2c_send func);
+
+typedef int (*ssd1306_i2c_send_block)(uint8_t reg, uint8_t *data, uint16_t count);
+void ssd1306_set_i2c_callback_block(ssd1306_i2c_send_block func);
 
 /**
  * This SSD1306 LCD uses I2C for communication
@@ -60,7 +64,7 @@ SDA        |PB7          |Serial data line
 
 /* I2C address */
 #ifndef SSD1306_I2C_ADDR
-#define SSD1306_I2C_ADDR         0x78
+#define SSD1306_I2C_ADDR         0x3C //0x78 is shifting in libopencm3
 //#define SSD1306_I2C_ADDR       0x7A
 #endif
 

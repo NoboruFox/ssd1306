@@ -24,10 +24,16 @@
 #include "ssd1306.h"
 
 static ssd1306_i2c_send i2c_callback = NULL;
+static ssd1306_i2c_send_block i2c_callback_block = NULL;
 
 void ssd1306_set_i2c_callback(ssd1306_i2c_send func)
 {
        i2c_callback = func;
+}
+
+void ssd1306_set_i2c_callback_block(ssd1306_i2c_send_block func)
+{
+        i2c_callback_block = func;
 }
 
 #if 0
@@ -44,7 +50,7 @@ void ssd1306_I2C_Write(uint8_t address, uint8_t reg, uint8_t data)
 /* Write command */
 #define SSD1306_WRITECOMMAND(command)      i2c_callback(0x00, (command))
 /* Write data */
-#define SSD1306_WRITEDATA(data)            i2c_callback(0x40, (data))
+#define SSD1306_WRITEDATA(data)            i2c_callback_block(0x40, (data), SSD1306_WIDTH)
 #endif
 /* Absolute value */
 #define ABS(x)   ((x) > 0 ? (x) : -(x))
@@ -120,7 +126,10 @@ void SSD1306_UpdateScreen(void) {
 		SSD1306_WRITECOMMAND(0x10);
 		
 		/* Write multi data */
+//
 //		ssd1306_I2C_WriteMulti(SSD1306_I2C, SSD1306_I2C_ADDR, 0x40, &SSD1306_Buffer[SSD1306_WIDTH * m], SSD1306_WIDTH);
+
+        SSD1306_WRITEDATA(&SSD1306_Buffer[SSD1306_WIDTH * m]);	
 	}
 }
 
